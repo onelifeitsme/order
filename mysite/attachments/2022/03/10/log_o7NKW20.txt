@@ -1,0 +1,26 @@
+Canon EOS Digital Info
+Mourad MKHAKH mkh.mourad@gmail.com <mailto:mkh.mourad@gmail.com>
+Copyright (C) 2016 Mourad MKHAKH.
+-----------------------------------------------------------------------------------------------
+[2:48:45] Canon EOS Digital INFO - v1.4
+[2:48:45] CANON EDSDK v2.14
+[2:48:45] Date :	6 Март 2022 г/ , 2:48:45
+[2:48:45] Load & Initialize SDK...
+[2:48:45] SDK Loaded
+[2:48:45] Seting Event CallBack function for  Added Camera Handler Success.
+[2:48:47] Search & get first camera...
+[2:48:47] Camera is Found
+[2:48:47] Device Info Name : Canon EOS 1300D
+[2:48:47] Error #07h while connecting to camera - EDS_ERR_NOT_SUPPORTED { Not supported }
+[3:27:32] Camera is  Detected
+[3:27:33] Device Info Name : Canon EOS 1300D
+[4:58:40] Camera is  Detected
+[4:58:40] Device Info Name : Canon EOS 1300D
+[5:01:54] Camera is  Detected
+[5:01:54] Device Info Name : Canon EOS 1300D
+[5:04:57] Search & get first camera...
+[5:04:57] Camera is Found
+[5:04:57] Device Info Name : Canon EOS 1300D
+[5:04:57] Error #61h while connecting to camera - EDS_ERR_INVALID_HANDLE { Handle error }
+[5:07:23] Camera is  Detected
+[5:07:23] Device Info Name : Canon EOS 1300D

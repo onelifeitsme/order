@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import OrderView, multiple_formsets
+from .views import OrderView, LoadProducts
 
 urlpatterns = [
-    # path('', OrderView.as_view(), name='order'),
-    path('', multiple_formsets, name='example_multiple_formsets'),
-
+    path('', OrderView.as_view(), name='order_page'),
+    path('ajax/load-products/', LoadProducts.as_view(), name='ajax_load_products'),
 ]

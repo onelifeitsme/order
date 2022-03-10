@@ -5,69 +5,74 @@
     <meta charset="UTF-8">
     <title>Оформление заказа</title>
     <link type='text/css' href="{% static 'order/css/main.css' %}" rel='stylesheet'/>
-
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="{% static 'order/js/jquery.formset.js' %}"></script>
     <script type="text/javascript">
-    // Define this so we don't have to bother with the admin jsi18n stuff:
     function gettext(msgid) { return msgid; }
-</script>
-{{ event_formset.media }}
+    </script>
+
+{{ address_formset.media }}
+
 <script type="text/javascript">
     $(function() {
-        $('#id_contact_info_table tbody tr').formset({
-            formCssClass: 'dynamic-contact-form',
-            prefix: "{{ contact_formset.prefix }}"
-        });
         $('table.form-container').formset({
-            formCssClass: 'dynamic-event-form',
-            prefix: "{{ event_formset.prefix }}",
+            formCssClass: 'dynamic-address-form',
+            prefix: "{{ address_formset.prefix }}",
             added: function(row) {
-                // Find the fields with the calendar widget
                 $(row).find('.vDateField').each(function(i) {
-                    // Remove the cloned spam element: it links to an incorrect calendar
                     $(this).parent().find('span').remove();
-                    // DateTimeShortcuts is defined in DateTimeShortcuts.js in the Django admin media
                     DateTimeShortcuts.addCalendar(this);
                 });
             }
         });
     });
 </script>
+
 </head>
 <body>
 <div class="order_form_block">
-    <form id='post_form' method="POST" enctype="multipart/form-data">
+    {% if form %}
+    <form id='OrderForm' method="POST" data-products-url="{% url 'ajax_load_products' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Оформить заказ</button>
 
-
-    <h2>Event formset</h2>
-            {% for form in event_formset.forms %}
+            <h2>Адреса доставки:</h2>
+            {% for form in address_formset.forms %}
             <table id="{{ form.prefix }}-row" class="form-container" border="0" cellpadding="0" cellspacing="5">
                 <tbody>
                     <tr>
-                        <th scope="row">Name</th>
-                        <td>{{ form.name }}</td>
+                        <th scope="row">город</th>
+                        <td>{{ form.city }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Start Date</th>
-                        <td>{{ form.start_date }}</td>
+                        <th scope="row">улица/проспект</th>
+                        <td>{{ form.street }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">End Date</th>
-                        <td>{{ form.end_date }}</td>
+                        <th scope="row">номер дома</th>
+                        <td>{{ form.house }}</td>
                     </tr>
+                    <tr>
+                        <th scope="row">офис/квартира</th>
+                        <td>{{ form.apartment }}</td>
+                    </tr>
+                {% if form.errors %}
+                    {{ form.errors }}
+                {% endif %}
                 </tbody>
             </table>
+
             {% endfor %}
             <p>
-                {{ contact_formset.management_form }}
-                {{ event_formset.management_form }}
-                <input type="submit" value="Submit" />
+                {{ address_formset.management_form }}
             </p>
+        {% if address_error %}
+        <h3>{{ address_error }}</h3>
+        {% endif %}
+
+        <button type="submit">Оформить заказ</button>
         </form>
+    {% endif %}
 
 </div>
 <script type="text/javascript">
@@ -75,5 +80,19 @@
         $('#myForm tbody tr').formset();
     })
 </script>
+
+<script src="{% static 'order/js/jquery_product_types.js' %}"></script>
+
+{% if current_order %}
+<h2>Ваш заказ оформлен:</h2>
+<h3>Тип товара: {{ current_order.type.name }}</h3>
+<h3>Название товара: {{ current_order.product.name }}</h3>
+<h3>Дата: {{ current_order.date }}</h3>
+<h3>Адрес: {{ current_order.address }}</h3>
+<form action="{% url 'order_page' %}" target="_blank">
+   <button>Оформить новый заказ</button>
+  </form>
+{% endif %}
+
 </body>
 </html>
